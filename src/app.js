@@ -1,5 +1,5 @@
 
-console.log('Battery Logger');
+//console.log('Battery Logger');
 var on = localStorage.getItem('on');
 console.log("on=" + on);
 var off = localStorage.getItem('off');
