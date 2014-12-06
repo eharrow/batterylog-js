@@ -1,4 +1,4 @@
-var debug = true;
+var debug = false;
 //console.log('Battery Logger');
 var on = localStorage.getItem('on');
 var off = localStorage.getItem('off');
