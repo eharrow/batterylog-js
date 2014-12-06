@@ -1,27 +1,37 @@
-
+var debug = true;
 //console.log('Battery Logger');
 var on = localStorage.getItem('on');
-console.log("on=" + on);
 var off = localStorage.getItem('off');
-console.log("off=" + off);
 var chargeState = localStorage.getItem('chargeState');
 chargeState = chargeState !== null ? chargeState : '';
-console.log("chargeState=" + chargeState);
+
+if (debug) {
+	console.log("on=" + on);
+	console.log("off=" + off);
+	console.log("chargeState=" + chargeState);
+}
 
 Pebble.addEventListener("showConfiguration", function () {
-    console.log("showing configuration");
-    Pebble.openURL('http://assets.getpebble.com.s3-website-us-east-1.amazonaws.com/pebble-js/configurable.html?');
+    if (debug) {
+		console.log("showing configuration");
+	}
+    Pebble.openURL('http://eharrow.github.io/configure.html?n=ewan');
 });
 
-Pebble.addEventListener("webviewclosed", function (e) {
-    console.log("configuration closed");
-    // webview closed
+Pebble.addEventListener("webviewclosed", function (e) {    // webview closed
     var options = JSON.parse(decodeURIComponent(e.response));
-    console.log("Options = " + JSON.stringify(options));
+	if (debug) {
+		console.log("configuration closed");
+    	console.log("Options = " + JSON.stringify(options));
+		console.log("name = " + options.name);
+	} 
+	simply.subtitle("name= " + options.name);
 });
 
 simply.on('singleClick', function (e) {
-    console.log(util2.format('single clicked $button!', e));
+	if (debug) {
+    	console.log(util2.format('single clicked $button!', e));
+	}
 
     var currentdate = new Date();
     if (e.button === 'up') {
@@ -40,12 +50,6 @@ simply.on('singleClick', function (e) {
         var diffM = diffS / 60;
         var diffHrs = diffM / 60;
         var diffDays = diffHrs / 24;
-
-        console.log("diff ms=" + diffMs);
-        console.log("diff s=" + diffS);
-        console.log("diff m=" + diffM);
-        console.log("diff hours=" + diffHrs);
-        console.log("diff days=" + diffDays);
         var msg;
 
         if (diffDays < 1) {
@@ -61,7 +65,15 @@ simply.on('singleClick', function (e) {
         } else {
             msg = Math.round(diffDays) + " days between charge";
         }
-        console.log(msg);
+		
+		if (debug) {
+			console.log("diff ms=" + diffMs);
+        	console.log("diff s=" + diffS);
+        	console.log("diff m=" + diffM);
+        	console.log("diff hours=" + diffHrs);
+        	console.log("diff days=" + diffDays);
+        	console.log(msg);
+		}
 
         simply.subtitle(msg);
     }
